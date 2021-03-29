@@ -1,4 +1,5 @@
 import pygame.midi
+from tkinter import *
 
 pygame.init()
 pygame.midi.init()
@@ -12,8 +13,9 @@ pygame.midi.init()
 input_id = pygame.midi.get_default_input_id()
 print("input MIDI:%d" % input_id)
 i = pygame.midi.Input(input_id)
-
-raw_input("press Enter key for rec start")
+MIDI_OUTPUT_FILENAME = "../Midi_file.txt"
+Midi_Frames = []
+input("press Enter key for rec start")
 print ("starting")
 print ("full midi_events:[[[status,data1,data2,data3],timestamp],...]")
 
@@ -23,11 +25,25 @@ while going:
     if i.poll():
         midi_events = i.read(10)
         Midi_Frames.append(midi_events)
-        #print "full midi_events:" + str(midi_events)
+        print("HERE: {}".format(midi_events))
+        print("full midi_events:" + str(midi_events))
         count += 1
-    if count >= 10:
+    if count >= 100:
         going = False
 
 i.close()
 pygame.midi.quit()
 pygame.quit()
+
+print(Midi_Frames)
+fm = open(MIDI_OUTPUT_FILENAME, "w")
+for colum1 in Midi_Frames:
+    for colum2 in colum1:
+        if colum2[0][2] > 0:
+            print(colum2[0][1])
+            fm.write(str(colum2[1]))
+            fm.write(",")
+            fm.write(str(colum2[0][2]))
+            fm.write("\n")
+
+exit()

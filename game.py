@@ -18,6 +18,8 @@ class Game():
         self.major_minor = Major_Minor(self)
         self.majorlist = Major_Chords(self)
         #self.minorlist =
+        self.piano_gui = Piano_gui(self)
+
         self.curr_menu = self.main_menu
 
 
