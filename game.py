@@ -1,5 +1,7 @@
 import pygame
 from menu import *
+from tkinter import*
+from PIANO_PROJECT import*
 
 
 class Game():
@@ -19,6 +21,9 @@ class Game():
         self.majorlist = Major_Chords(self)
         #self.minorlist =
         self.piano_gui = Piano_gui(self)
+        self.root = Tk()
+        self.my_gui = PianoGui(self.root)
+        self.rootinit = 1
 
         self.curr_menu = self.main_menu
 

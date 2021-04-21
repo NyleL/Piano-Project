@@ -190,10 +190,11 @@ class Piano_gui(Menu):
         self.majx, self.majy = self.mid_w, self.mid_h + 20
         self.minx, self.miny = self.mid_w, self.mid_h + 40
         self.cursor_rect.midtop = (self.majx + self.offset, self.majy)
+        self.game = game
 
     def display_menu(self):
         self.run_display = True
-        pianomain()
+        pianomain(self.game.root, self.game.my_gui)
         self.run_display = True
         while self.run_display:
             self.game.check_events()
@@ -201,6 +202,7 @@ class Piano_gui(Menu):
             self.game.display.fill((0, 0, 0))
             self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
             self.game.draw_text("C Major", 15, self.majx, self.majy)
+            self.game.draw_text("D Major", 15, self.majx, self.majy)
 
             self.draw_cursor()
             self.blit_screen()

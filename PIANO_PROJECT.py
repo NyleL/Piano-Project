@@ -13,14 +13,14 @@ class PianoGui:
 		master.title("STUDY CHORDS")
 		self.Label = Label(master , borderwidth=1, relief="raised", text="PIANO")
 		self.Label.grid(row=0 , columnspan=55)
-		if init == 0:
-			pygame.init()
-			pygame.midi.init()
-			print("initialized")
-			input_id = pygame.midi.get_default_input_id()
-			print(pygame.midi.get_device_info(input_id))
-			self.midi_input = pygame.midi.Input(input_id)
-			init = 1
+		#if init == 0:
+		pygame.init()
+		pygame.midi.init()
+		print("initialized")
+		input_id = pygame.midi.get_default_input_id()
+		print(pygame.midi.get_device_info(input_id))
+		self.midi_input = pygame.midi.Input(input_id)
+			#init = 1
 
 
 
@@ -119,7 +119,7 @@ def read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root):
 	# end the program if you've already played all the notes
 	if count >= len(notes):
 		root.quit()
-		root.destroy()
+		#root.destroy()
 		return
 	key = 0
 
@@ -172,10 +172,10 @@ def get_midi_event(midi_input):
 
 
 
-def pianomain():
-	root = Tk()
+def pianomain(root, my_gui):
+	#root = Tk()
 	#building gui
-	my_gui = PianoGui(root)
+	#my_gui = PianoGui(root)
 	#Mapping Midi Keys to Gui keys
 	notes = [48, 49, 50, 51, 52, 53, 54, 55]
 	count = 0
