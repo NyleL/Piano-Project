@@ -1,17 +1,27 @@
 from tkinter import *
 import pygame.midi
 
-
+init = 0
 
 class PianoGui:
 	def colorchange(self, button):
 		self.master.after(200, lambda: button.config(background="green"))
 		self.master.after(400, lambda: button.config(background="white"))
 	def __init__(self, master):
+		global init
 		self.master = master
 		master.title("STUDY CHORDS")
 		self.Label = Label(master , borderwidth=1, relief="raised", text="PIANO")
 		self.Label.grid(row=0 , columnspan=55)
+		if init == 0:
+			pygame.init()
+			pygame.midi.init()
+			print("initialized")
+			input_id = pygame.midi.get_default_input_id()
+			print(pygame.midi.get_device_info(input_id))
+			self.midi_input = pygame.midi.Input(input_id)
+			init = 1
+
 
 
 
@@ -103,9 +113,8 @@ def change_background(label, color):
 	label.after(100, lambda color=bg: label.configure(background=color))
 
 
-def read_midi_event(Piano, midi_input):
-	global count
-	global notes
+def read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root):
+
 
 	# end the program if you've already played all the notes
 	if count >= len(notes):
@@ -137,15 +146,15 @@ def read_midi_event(Piano, midi_input):
 	print(count)
 	if key == 0:  # make sure the piano key is valid
 		#print("Key invalid")
-		root.after(0, lambda: read_midi_event(Piano, midi_input))
+		root.after(0, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root))
 	elif key == (notes[count]):
 		root.after(0, change_background(key_button, "green"))
 		count += 1
-		root.after(150, lambda: read_midi_event(Piano, midi_input))
+		root.after(150, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root))
 	else:
 		root.after(0, change_background(key_button, "red"))
 		count += 1
-		root.after(150, lambda: read_midi_event(Piano, midi_input))
+		root.after(150, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root))
 
 
 def get_midi_event(midi_input):
@@ -168,7 +177,7 @@ def pianomain():
 	#building gui
 	my_gui = PianoGui(root)
 	#Mapping Midi Keys to Gui keys
-	notes = [48, 49, 50]
+	notes = [48, 49, 50, 51, 52, 53, 54, 55]
 	count = 0
 	Piano_Dict = {48: my_gui.C_0_button, 49: my_gui.CC_0_button, 50: my_gui.D_0_button, 51: my_gui.DD_0_button, 52: my_gui.E_0_button, 53: my_gui.F_0_button, 54: my_gui.FF_0_button, 55: my_gui.G_0_button, 56: my_gui.GG_0_button, 57: my_gui.A_0_button, 58: my_gui.AA_0_button, 59: my_gui.B_0_button, 60: my_gui.C_1_button, 61: my_gui.CC_1_button,
 				  62: my_gui.D_1_button, 63: my_gui.DD_1_button,
@@ -176,13 +185,13 @@ def pianomain():
 				  66: my_gui.FF_1_button, 67: my_gui.G_1_button,
 				  68: my_gui.GG_1_button, 69: my_gui.A_1_button,
 				  70: my_gui.AA_1_button, 71: my_gui.B_1_button,}
-	pygame.init()
-	pygame.midi.init()
-	pygame.midi.init()
-	input_id = pygame.midi.get_default_input_id()
-	midi_input = pygame.midi.Input(input_id)
-	root.after(100, lambda: read_midi_event(my_gui, midi_input))
+	# pygame.init()
+	# pygame.midi.init()
+	# input_id = pygame.midi.get_default_input_id()
+	# midi_input = pygame.midi.Input(input_id)
+	root.after(100, lambda: read_midi_event(my_gui, my_gui.midi_input, count, notes, Piano_Dict, root))
 	root.mainloop()
+
 
 
 
