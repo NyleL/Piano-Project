@@ -151,8 +151,14 @@ class Major_Chords(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
         self.state = 'Majo'
-        self.majox, self.majoy = self.mid_w, self.mid_h + 20
-        self.minox, self.minoy = self.mid_w, self.mid_h + 40
+        self.majox, self.majoy = self.mid_w, self.mid_h + -60
+        self.minoa, self.minob = self.mid_w, self.mid_h + -40
+        self.minoc, self.minod = self.mid_w, self.mid_h + -20
+        self.minoe, self.minof = self.mid_w, self.mid_h + 0
+        self.minog, self.minoh = self.mid_w, self.mid_h + 20
+        self.minoi, self.minoj = self.mid_w, self.mid_h + 40
+        self.minok, self.minol = self.mid_w, self.mid_h + 60
+
         self.cursor_rect.midtop = (self.majox + self.offset, self.majoy)
 
     def display_menu(self):
@@ -161,8 +167,15 @@ class Major_Chords(Menu):
             self.game.check_events()
             self.check_input()
             self.game.display.fill((0, 0, 0))
-            self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
+            self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H /5)
             self.game.draw_text("C Major", 15, self.majox, self.majoy)
+            self.game.draw_text("D Major", 15, self.minoa, self.minob)
+            self.game.draw_text("E Major", 15, self.minoc, self.minod)
+            self.game.draw_text("F Major", 15, self.minoe, self.minof)
+            self.game.draw_text("G Major", 15, self.minog, self.minoh)
+            self.game.draw_text("A Major", 15, self.minoi, self.minoj)
+            self.game.draw_text("B Major", 15, self.minok, self.minol)
+
 
             self.draw_cursor()
             self.blit_screen()
@@ -171,11 +184,48 @@ class Major_Chords(Menu):
         if self.game.BACK_KEY:
             self.game.curr_menu = self.game.options
             self.run_display = False
-        elif self.game.UP_KEY or self.game.DOWN_KEY:
+        elif self.game.DOWN_KEY:
             if self.state == 'Majo':
-                self.state = 'Mino'
-                self.cursor_rect.midtop = (self.minox + self.offset, self.minoy)
-            elif self.state == 'Mino':
+                self.state = 'minoa'
+                self.cursor_rect.midtop = (self.minoa + self.offset, self.minob)
+            elif self.state == 'minoa':
+                self.state = 'minoc'
+                self.cursor_rect.midtop = (self.minoc + self.offset, self.minod)
+            elif self.state == 'minoc':
+                self.state = 'minoe'
+                self.cursor_rect.midtop = (self.minoe + self.offset, self.minof)
+            elif self.state == 'minoe':
+                self.state = 'minog'
+                self.cursor_rect.midtop = (self.minog + self.offset, self.minoh)
+            elif self.state == 'minog':
+                self.state = 'minoi'
+                self.cursor_rect.midtop = (self.minoi + self.offset, self.minoj)
+            elif self.state == 'minoi':
+                self.state = 'minok'
+                self.cursor_rect.midtop = (self.minok + self.offset, self.minol)
+            elif self.state == 'minok':
+                self.state = 'Majo'
+                self.cursor_rect.midtop = (self.majox + self.offset, self.majoy)
+        elif self.game.UP_KEY:
+            if self.state == 'Majo':
+                self.state = 'minok'
+                self.cursor_rect.midtop = (self.minok + self.offset, self.minol)
+            elif self.state == 'minok':
+                self.state = 'minoi'
+                self.cursor_rect.midtop = (self.minoi + self.offset, self.minoj)
+            elif self.state == 'minoi':
+                self.state = 'minog'
+                self.cursor_rect.midtop = (self.minog + self.offset, self.minoh)
+            elif self.state == 'minog':
+                self.state = 'minoe'
+                self.cursor_rect.midtop = (self.minoe + self.offset, self.minof)
+            elif self.state == 'minoe':
+                self.state = 'minoc'
+                self.cursor_rect.midtop = (self.minoc + self.offset, self.minod)
+            elif self.state == 'minoc':
+                self.state = 'minoa'
+                self.cursor_rect.midtop = (self.minoa + self.offset, self.minob)
+            elif self.state == 'minoa':
                 self.state = 'Majo'
                 self.cursor_rect.midtop = (self.majox + self.offset, self.majoy)
         elif self.game.START_KEY:
@@ -202,8 +252,6 @@ class Piano_gui(Menu):
             self.game.display.fill((0, 0, 0))
             self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
             self.game.draw_text("C Major", 15, self.majx, self.majy)
-            self.game.draw_text("D Major", 15, self.majx, self.majy)
-
             self.draw_cursor()
             self.blit_screen()
 
