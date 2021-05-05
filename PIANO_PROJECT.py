@@ -170,14 +170,14 @@ def get_midi_event(midi_input):
 
 
 
-
-
-def pianomain(root, my_gui):
+# c_major = [48,52,55]
+# d_major = [50, 53, 56]
+def pianomain(root, my_gui, notes):
 	#root = Tk()
 	#building gui
 	#my_gui = PianoGui(root)
 	#Mapping Midi Keys to Gui keys
-	notes = [48, 49, 50, 51, 52, 53, 54, 55]
+	#notes = [48, 49, 50, 51, 52, 53, 54, 55]
 	count = 0
 	Piano_Dict = {48: my_gui.C_0_button, 49: my_gui.CC_0_button, 50: my_gui.D_0_button, 51: my_gui.DD_0_button, 52: my_gui.E_0_button, 53: my_gui.F_0_button, 54: my_gui.FF_0_button, 55: my_gui.G_0_button, 56: my_gui.GG_0_button, 57: my_gui.A_0_button, 58: my_gui.AA_0_button, 59: my_gui.B_0_button, 60: my_gui.C_1_button, 61: my_gui.CC_1_button,
 				  62: my_gui.D_1_button, 63: my_gui.DD_1_button,

@@ -231,6 +231,12 @@ class Major_Chords(Menu):
         elif self.game.START_KEY:
             if self.state == "Majo":
                 self.game.curr_menu = self.game.piano_gui
+            if self.state == "minoa":
+                self.game.curr_menu = self.game.DMajor
+            if self.state == "minoc":
+                self.game.curr_menu = self.game.EMajor
+            if self.state == "minoe":
+                self.game.curr_menu = self.game.FMajor
             self.run_display = False
 
 class Piano_gui(Menu):
@@ -244,14 +250,15 @@ class Piano_gui(Menu):
 
     def display_menu(self):
         self.run_display = True
-        pianomain(self.game.root, self.game.my_gui)
+        c_major =[48, 52, 55]
+        pianomain(self.game.root, self.game.my_gui, c_major)
         self.run_display = True
         while self.run_display:
             self.game.check_events()
             self.check_input()
             self.game.display.fill((0, 0, 0))
             self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
-            self.game.draw_text("C Major", 15, self.majx, self.majy)
+            self.game.draw_text("Gui", 15, self.majx, self.majy)
             self.draw_cursor()
             self.blit_screen()
 
@@ -268,10 +275,125 @@ class Piano_gui(Menu):
                 self.cursor_rect.midtop = (self.majox + self.offset, self.majoy)
         elif self.game.START_KEY:
             if self.state == "Majo":
-                self.game.curr_menu = self.game.piano_gui
+                self.game.curr_menu = self.game.DMajor
             self.run_display = False
 
+class DMajor(Menu):
+    def __init__(self, game):
+        Menu.__init__(self, game)
+        self.state = 'Maj'
+        self.majx, self.majy = self.mid_w, self.mid_h + 20
+        self.minx, self.miny = self.mid_w, self.mid_h + 40
+        self.cursor_rect.midtop = (self.majx + self.offset, self.majy)
+        self.game = game
 
+    def display_menu(self):
+        self.run_display = True
+        d_major =[50, 53, 56]
+        pianomain(self.game.root, self.game.my_gui, d_major)
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+            self.check_input()
+            self.game.display.fill((0, 0, 0))
+            self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
+            self.game.draw_text("Gui", 15, self.majx, self.majy)
+            self.draw_cursor()
+            self.blit_screen()
+
+    def check_input(self):
+        if self.game.BACK_KEY:
+            self.game.curr_menu = self.game.options
+            self.run_display = False
+        elif self.game.UP_KEY or self.game.DOWN_KEY:
+            if self.state == 'Majo':
+                self.state = 'Mino'
+                self.cursor_rect.midtop = (self.minox + self.offset, self.minoy)
+            elif self.state == 'Mino':
+                self.state = 'Majo'
+                self.cursor_rect.midtop = (self.majox + self.offset, self.majoy)
+        elif self.game.START_KEY:
+            if self.state == "Majo":
+                self.game.curr_menu = self.game.DMajor
+            self.run_display = False
+
+class EMajor(Menu):
+    def __init__(self, game):
+        Menu.__init__(self, game)
+        self.state = 'Maj'
+        self.majx, self.majy = self.mid_w, self.mid_h + 20
+        self.minx, self.miny = self.mid_w, self.mid_h + 40
+        self.cursor_rect.midtop = (self.majx + self.offset, self.majy)
+        self.game = game
+
+    def display_menu(self):
+        self.run_display = True
+        E_major =[54, 56, 58]
+        pianomain(self.game.root, self.game.my_gui, E_major)
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+            self.check_input()
+            self.game.display.fill((0, 0, 0))
+            self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
+            self.game.draw_text("Gui", 15, self.majx, self.majy)
+            self.draw_cursor()
+            self.blit_screen()
+
+    def check_input(self):
+        if self.game.BACK_KEY:
+            self.game.curr_menu = self.game.options
+            self.run_display = False
+        elif self.game.UP_KEY or self.game.DOWN_KEY:
+            if self.state == 'Majo':
+                self.state = 'Mino'
+                self.cursor_rect.midtop = (self.minox + self.offset, self.minoy)
+            elif self.state == 'Mino':
+                self.state = 'Majo'
+                self.cursor_rect.midtop = (self.majox + self.offset, self.majoy)
+        elif self.game.START_KEY:
+            if self.state == "Majo":
+                self.game.curr_menu = self.game.DMajor
+            self.run_display = False
+
+class FMajor(Menu):
+    def __init__(self, game):
+        Menu.__init__(self, game)
+        self.state = 'Maj'
+        self.majx, self.majy = self.mid_w, self.mid_h + 20
+        self.minx, self.miny = self.mid_w, self.mid_h + 40
+        self.cursor_rect.midtop = (self.majx + self.offset, self.majy)
+        self.game = game
+
+    def display_menu(self):
+        self.run_display = True
+        F_major =[54, 56, 58]
+        pianomain(self.game.root, self.game.my_gui, F_major)
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+            self.check_input()
+            self.game.display.fill((0, 0, 0))
+            self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
+            self.game.draw_text("Gui", 15, self.majx, self.majy)
+            self.draw_cursor()
+            self.blit_screen()
+
+    def check_input(self):
+        if self.game.BACK_KEY:
+            self.game.curr_menu = self.game.options
+            self.run_display = False
+        elif self.game.UP_KEY or self.game.DOWN_KEY:
+            if self.state == 'Majo':
+                self.state = 'Mino'
+                self.cursor_rect.midtop = (self.minox + self.offset, self.minoy)
+            elif self.state == 'Mino':
+                self.state = 'Majo'
+                self.cursor_rect.midtop = (self.majox + self.offset, self.majoy)
+        elif self.game.START_KEY:
+            if self.state == "Majo":
+                self.game.curr_menu = self.game.DMajor
+            self.run_display = False
 
 class CreditsMenu(Menu):
     def __init__(self, game):

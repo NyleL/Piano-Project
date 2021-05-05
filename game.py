@@ -21,6 +21,9 @@ class Game():
         self.majorlist = Major_Chords(self)
         #self.minorlist =
         self.piano_gui = Piano_gui(self)
+        self.DMajor = DMajor(self)
+        self.EMajor = EMajor(self)
+        self.FMajor = FMajor(self)
         self.root = Tk()
         self.my_gui = PianoGui(self.root)
         self.rootinit = 1
