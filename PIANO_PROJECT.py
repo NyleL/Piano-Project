@@ -112,12 +112,15 @@ def change_background(label, color):
 	label.configure(background=color)
 	label.after(100, lambda color=bg: label.configure(background=color))
 
+g_key_correct_percent = 0
 
-def read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root):
+def read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root, key_correct_count):
+	global g_key_correct_percent
 
 
 	# end the program if you've already played all the notes
 	if count >= len(notes):
+		g_key_correct_percent = key_correct_count/count
 		root.quit()
 		#root.destroy()
 		return
@@ -143,18 +146,18 @@ def read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root):
 
 	# if/else state to compare correct key with <midi_note>
 
-	print(count)
 	if key == 0:  # make sure the piano key is valid
 		#print("Key invalid")
-		root.after(0, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root))
+		root.after(0, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root, key_correct_count))
 	elif key == (notes[count]):
 		root.after(0, change_background(key_button, "green"))
+		key_correct_count += 1
 		count += 1
-		root.after(150, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root))
+		root.after(150, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root, key_correct_count))
 	else:
 		root.after(0, change_background(key_button, "red"))
 		count += 1
-		root.after(150, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root))
+		root.after(150, lambda: read_midi_event(Piano, midi_input, count, notes, Piano_Dict, root, key_correct_count))
 
 
 def get_midi_event(midi_input):
@@ -173,6 +176,7 @@ def get_midi_event(midi_input):
 # c_major = [48,52,55]
 # d_major = [50, 53, 56]
 def pianomain(root, my_gui, notes):
+	global g_key_correct_percent
 	#root = Tk()
 	#building gui
 	#my_gui = PianoGui(root)
@@ -189,8 +193,10 @@ def pianomain(root, my_gui, notes):
 	# pygame.midi.init()
 	# input_id = pygame.midi.get_default_input_id()
 	# midi_input = pygame.midi.Input(input_id)
-	root.after(100, lambda: read_midi_event(my_gui, my_gui.midi_input, count, notes, Piano_Dict, root))
+	key_correct_count = 0
+	root.after(100, lambda: read_midi_event(my_gui, my_gui.midi_input, count, notes, Piano_Dict, root, key_correct_count))
 	root.mainloop()
+	return g_key_correct_percent
 
 
 

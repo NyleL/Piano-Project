@@ -17,6 +17,7 @@ class Game():
         self.main_menu = MainMenu(self)
         self.options = OptionsMenu(self)
         self.credits = CreditsMenu(self)
+        self.quizme = Quizme(self)
         self.major_minor = Major_Minor(self)
         self.scalelist = Scale_List(self)
         self.majorlist = Major_Chords(self)

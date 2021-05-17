@@ -40,6 +40,7 @@ class MainMenu(Menu):
             self.game.draw_text('Main Menu', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 20)
             self.game.draw_text("Quiz Me", 20, self.startx, self.starty)
             self.game.draw_text("Study Music", 20, self.optionsx, self.optionsy)
+
             self.draw_cursor()
             self.blit_screen()
 
@@ -63,13 +64,52 @@ class MainMenu(Menu):
         self.move_cursor()
         if self.game.START_KEY:
             if self.state == 'Start':
-                self.game.playing = True
+                self.game.curr_menu = self.game.quizme
             elif self.state == 'Options':
                 self.game.curr_menu = self.game.options
             elif self.state == 'Credits':
                 self.game.curr_menu = self.game.credits
             self.run_display = False
 
+class Quizme(Menu):
+    def __init__(self, game):
+        Menu.__init__(self, game)
+        self.state = 'Maj'
+        self.majx, self.majy = self.mid_w, self.mid_h + 20
+        self.minx, self.miny = self.mid_w, self.mid_h + 40
+        self.cursor_rect.midtop = (self.majx + self.offset, self.majy)
+        self.game = game
+
+    def display_menu(self):
+        self.run_display = True
+        song = [48, 52, 55]
+        key_correct_percent = pianomain(self.game.root, self.game.my_gui, song,)
+        print(key_correct_percent)
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+            self.check_input()
+            self.game.display.fill((0, 0, 0))
+            self.game.draw_text('Choose Mode ', 15, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
+            self.game.draw_text("Percent Correct: "+ str(key_correct_percent * 100) + "%",15, self.minx, self.miny)
+            self.draw_cursor()
+            self.blit_screen()
+
+    def check_input(self):
+        if self.game.BACK_KEY:
+            self.game.curr_menu = self.game.main_menu
+            self.run_display = False
+        elif self.game.UP_KEY or self.game.DOWN_KEY:
+            if self.state == 'Majo':
+                self.state = 'Mino'
+                self.cursor_rect.midtop = (self.minox + self.offset, self.minoy)
+            elif self.state == 'Mino':
+                self.state = 'Majo'
+                self.cursor_rect.midtop = (self.majox + self.offset, self.majoy)
+        elif self.game.START_KEY:
+            if self.state == "Majo":
+                self.game.curr_menu = self.game.DMajor
+            self.run_display = False
 
 class OptionsMenu(Menu):
     def __init__(self, game):
